@@ -1,11 +1,15 @@
 import { motion } from "framer-motion";
 import SummaryOutput from "@/components/SummaryOutput";
+import { useLocation } from "react-router-dom";
 
 const Results = () => {
   const handleReset = () => {
     // Navigate back to the home page
     window.location.href = "/";
   };
+
+  const location = useLocation();
+  const data = location.state?.data;
 
   return (
     <div className="min-h-screen bg-background px-4 py-16 md:py-24">
@@ -22,7 +26,7 @@ const Results = () => {
           >
             ← Start over
           </button>
-          <SummaryOutput />
+          <SummaryOutput data={data} />
         </motion.div>
       </div>
     </div>

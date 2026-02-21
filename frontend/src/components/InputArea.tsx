@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { FileText, Upload, Camera, Mic, MicOff, ArrowRight, X, Image } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { analyzePolicy } from "@/lib/api";
 
 type InputMode = "text" | "upload" | "scan" | "audio";
 
@@ -91,6 +92,16 @@ const InputArea = ({ onSubmit }: InputAreaProps) => {
   };
 
   const canSubmit = text.trim().length > 0;
+
+  const handleSubmit = async () => {
+    try {
+      const response = await analyzePolicy({ text }); // Wrap text in an object
+      onSubmit(JSON.stringify(response)); // Ensure onSubmit gets a string
+    } catch (error) {
+      console.error("Error submitting data:", error);
+      alert("Failed to analyze policy. Please try again.");
+    }
+  };
 
   return (
     <motion.div
@@ -208,12 +219,11 @@ const InputArea = ({ onSubmit }: InputAreaProps) => {
         {/* Submit */}
         <div className="flex justify-end mt-3 pt-3 border-t border-border">
           <Button
-            onClick={() => canSubmit && onSubmit(getSubmitContent())}
-            disabled={!canSubmit}
-            className="gap-2 bg-foreground text-background hover:bg-foreground/90 rounded-lg px-6"
+            onClick={handleSubmit}
+            className="w-full"
+            disabled={!text.trim()}
           >
-            Summarize
-            <ArrowRight size={16} />
+            Submit <ArrowRight size={18} className="ml-2" />
           </Button>
         </div>
       </div>

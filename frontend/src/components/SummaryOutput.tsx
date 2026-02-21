@@ -10,13 +10,17 @@ const mockData = [
 ];
 
 const barColors = [
-  "hsl(4, 78%, 63%)",
+  //"hsl(4, 78%, 63%)",
   "hsl(172, 52%, 46%)",
   "hsl(38, 92%, 56%)",
   "hsl(262, 60%, 58%)",
 ];
 
-const SummaryOutput = () => {
+interface SummaryOutputProps {
+  data: Record<string, unknown>;
+}
+
+const SummaryOutput = ({ data }: SummaryOutputProps) => {
   return (
     <motion.div
       initial={{ opacity: 0, height: 0 }}
@@ -28,7 +32,7 @@ const SummaryOutput = () => {
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
         <h2 className="text-3xl font-medium tracking-tight mb-2">Summary</h2>
         <p className="text-muted-foreground text-base leading-relaxed">
-          Here's a plain-language breakdown of your content, organized by key themes and takeaways.
+          Here's a plain-language breakdown of the content, organized by key themes and takeaways.
         </p>
       </motion.div>
 
@@ -47,7 +51,8 @@ const SummaryOutput = () => {
         </div>
       </motion.div>
 
-      {/* Important Note */}
+
+      {/* Important Note
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="highlight-coral">
         <div className="flex items-start gap-2">
           <AlertTriangle size={18} className="text-coral mt-0.5 shrink-0" />
@@ -58,15 +63,16 @@ const SummaryOutput = () => {
             </p>
           </div>
         </div>
-      </motion.div>
+      </motion.div> */}
 
-      {/* Insights */}
+      {/* Insights - generated */}
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="highlight-amber">
         <div className="flex items-start gap-2">
           <Lightbulb size={18} className="text-amber mt-0.5 shrink-0" />
           <div>
-            <h3 className="font-semibold text-base mb-1">Insights</h3>
+            <h3 className="font-semibold text-base mb-1">What does this mean for you?</h3>
             <ul className="space-y-1.5 text-sm leading-relaxed">
+              {/* generated text */}
               <li>• Serif typography tested 12% better for readability in long-form content</li>
               <li>• Color contrast improvements led to 23% longer session durations</li>
             </ul>
@@ -128,7 +134,7 @@ const SummaryOutput = () => {
 
       {/* Footer */}
       <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.8 }} className="text-xs text-muted-foreground text-center pt-4 pb-8">
-        This summary was generated from your input. Results are illustrative and may need verification.
+        This summary was generated from your input. Results are illustrative and should be verified.
       </motion.p>
     </motion.div>
   );

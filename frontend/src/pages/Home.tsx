@@ -1,10 +1,13 @@
 import { motion } from "framer-motion";
 import InputArea from "@/components/InputArea";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
-  const handleSubmit = (_content: string) => {
-    // Navigate to results page with the query
-    window.location.href = "/results";
+  const navigate = useNavigate();
+
+  const handleSubmit = (response: string) => {
+    const parsedResponse = JSON.parse(response); // Parse the string back to an object
+    navigate("/results", { state: { data: parsedResponse } });
   };
 
   return (
