@@ -2,7 +2,7 @@
 
 const BASE_URL =  "http://localhost:8000";
 export async function analyzePolicy(data: Record<string, unknown>) {
-  const response = await fetch(`${BASE_URL}/analyze`, {
+  const response = await fetch(`${BASE_URL}/personalize`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
