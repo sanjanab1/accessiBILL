@@ -14,3 +14,17 @@ export async function analyzePolicy(data: Record<string, unknown>) {
 
   return response.json();
 }
+
+export async function getPlotData(state: string, bill_summary: string) {
+  const response = await fetch(`${BASE_URL}/plot`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ state, bill_summary }),
+  });
+
+  if (!response.ok) {
+    throw new Error("API failed");
+  }
+
+  return response.json();
+}

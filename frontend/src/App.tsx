@@ -6,8 +6,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import Results from "./pages/Results";
 import NotFound from "./pages/NotFound";
-import Plotly from 'plotly.js-dist-min';
-import { useEffect, useRef } from 'react';
 
 
 const queryClient = new QueryClient();

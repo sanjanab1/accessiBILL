@@ -33,7 +33,9 @@ def prepare_local_data(state_name, crime_csv, tax_csv):
     return c_filtered, t_filtered
 
 # --- 3. RAPIDFIRE HYPERPARALLEL PREDICTION ---
-def get_parallel_predictions(state_name, bill_summary, crime_df, tax_df):
+def get_parallel_predictions(state_name, bill_summary):
+    crime_df, tax_df = prepare_local_data(state_name, "data/processed_crimes.csv", "data/formatted_tax_rates.csv")
+
     crime_str = crime_df.tail(5).to_csv(index=False)
     tax_str = tax_df.tail(5).to_csv(index=False)
     history_str = f"Crime Data:\n{crime_str}\nTax Data:\n{tax_str}"
@@ -73,10 +75,12 @@ def get_parallel_predictions(state_name, bill_summary, crime_df, tax_df):
         # )
         #results.append({"scenario": scenario['name'], "data": response.text})
         
-    return results
+    return results, crime_df, tax_df
 
 # --- 4. THE PLOTTER ---
-def plot_impact_dashboard(history_df, predictions):
+def plot_impact_dashboard(state_name, bill_summary):
+    predictions, history_df, tax_df = get_parallel_predictions(state_name, bill_summary)    
+
     fig = go.Figure()
 
     # Plot Historical Crime
@@ -115,11 +119,12 @@ def plot_impact_dashboard(history_df, predictions):
                             tick0=0,              # Start ticks at 0
                         )
                       )
-    fig.show()
     return fig.to_json()
 
 
-def plot_impact_dashboard2(history_df, predictions):
+def plot_impact_dashboard2(state_name, bill_summary):
+    predictions, crime_df, history_df = get_parallel_predictions(state_name, bill_summary)    
+
     fig = go.Figure()
 
     # Plot Historical Crime
@@ -158,7 +163,6 @@ def plot_impact_dashboard2(history_df, predictions):
                             tick0=0,              # Start ticks at 0
                         )
                       )
-    fig.show()
     return fig.to_json()
 
 
@@ -166,8 +170,6 @@ def plot_impact_dashboard2(history_df, predictions):
 
     
 # --- EXECUTION ---
-crime, tax = prepare_local_data("Texas", "data/processed_crimes.csv", "data/formatted_tax_rates.csv")
-results = get_parallel_predictions("Texas", "Completely get rid of violent crime. No criminals leave prison. Life sentences for all.", crime, tax)
-crime_json = plot_impact_dashboard(crime, results)
-tax_json = plot_impact_dashboard2(tax, results)
+crime_json = plot_impact_dashboard("Texas", "Completely get rid of violent crime. No criminals leave prison. Life sentences for all.")
+tax_json = plot_impact_dashboard2("Texas", "Completely get rid of violent crime. No criminals leave prison. Life sentences for all.")
 
