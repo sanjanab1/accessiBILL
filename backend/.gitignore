@@ -1,0 +1,5 @@
+.env
+.DS_store
+venv/
+formatted_tax_rates.csv
+processed_crimes.csv
