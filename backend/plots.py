@@ -73,7 +73,7 @@ def get_parallel_predictions(state_name, bill_summary):
         #     model="gemini-2.5-flash-lite",
         #     contents=full_prompt
         # )
-        #results.append({"scenario": scenario['name'], "data": response.text})
+        # results.append({"scenario": scenario['name'], "data": response.text})
         
     return results, crime_df, tax_df
 

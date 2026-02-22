@@ -95,7 +95,7 @@ const InputArea = ({ onSubmit }: InputAreaProps) => {
 
   const handleSubmit = async () => {
     try {
-      const response = await analyzePolicy({ text }); // Wrap text in an object
+      const response = await analyzePolicy(); // Wrap text in an object
       onSubmit(JSON.stringify(response)); // Ensure onSubmit gets a string
     } catch (error) {
       console.error("Error submitting data:", error);

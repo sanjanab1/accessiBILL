@@ -1,4 +1,5 @@
 import json
+import os
 import cv2
 import pytesseract
 import numpy as np
@@ -7,6 +8,9 @@ from fastapi import UploadFile, File
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from plots import plot_impact_dashboard, plot_impact_dashboard2
+
+#from models import PersonalizationRequest
+from gemini_service import generate_personalized_impact
 
 app = FastAPI()
 
@@ -21,18 +25,16 @@ app.add_middleware(
 def root():
     return {"message": "Backend running"}
 
+
 @app.post("/personalize")
-def personalize(data: dict):
-    return {
-        "personalized_impact": "Test response from backend.",
-        "impact_tags": {
-            "financial": "medium",
-            "housing": "low",
-            "transportation": "high",
-            "education": "none",
-            "employment": "low"
-        }
-    }
+def personalize_policy():
+
+    result = generate_personalized_impact(
+        # bill_summary="increase income tax for free childcare",
+        # user_context="teacher in rural area with kids"
+    )
+
+    return result
 
 @app.post("/plot")
 def plot(data: dict):

@@ -6,6 +6,16 @@ import Plotly from 'plotly.js-dist-min';
 
 import { getPlotData } from "@/lib/api";
 import CameraOCR from "@/components/Camera";
+import { analyzePolicy } from "@/lib/api";
+
+
+const levelColor = {
+  none: "bg-gray-100 text-gray-500",
+  low: "bg-green-100 text-green-700",
+  medium: "bg-yellow-100 text-yellow-700",
+  high: "bg-red-100 text-red-700",
+};
+
 
 const Results = () => {
   const location = useLocation();
@@ -14,7 +24,11 @@ const Results = () => {
   //const state = useRef(null);
   const chart1Ref = useRef(null);
   const chart2Ref = useRef(null);
+  const impact = data?.personalized_impact;
+  const tags = data?.impact_tags;
+
   
+
   const handleReset = () => {
     // Navigate back to the home page
     window.location.href = "/";
@@ -61,6 +75,33 @@ const Results = () => {
           >
             ← Start over
           </button>
+          
+          {/* Impact Summary */}
+          {impact && (
+            <div className="bg-white rounded-2xl shadow p-6 mb-6">
+              <h2 className="text-lg font-semibold mb-2">Your Personalized Impact</h2>
+              <p className="text-muted-foreground leading-relaxed">{impact}</p>
+            </div>
+          )}
+
+          {/* Impact Tags */}
+          {tags && (
+            <div className="bg-white rounded-2xl shadow p-6">
+              <h2 className="text-lg font-semibold mb-4">Impact by Category</h2>
+              <div className="grid grid-cols-2 gap-3">
+                {Object.entries(tags).map(([category, level]) => (
+                  <div
+                    key={category}
+                    className={`flex items-center justify-between rounded-xl px-4 py-3 ${levelColor[level] ?? "bg-gray-100"}`}
+                  >
+                    <span className="capitalize font-medium">{category}</span>
+                    <span className="capitalize text-sm font-semibold">{level}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          
           <SummaryOutput data={data} />
           <div ref={chart1Ref} className="mt-8 w-full" />
           <div ref={chart2Ref} className="mt-8 w-full" />
