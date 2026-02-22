@@ -50,27 +50,40 @@ def personalize(data: dict):
 '''
 
 @app.post("/personalize")
-def personalize_policy(request: PersonalizationRequest):
+def personalize_policy():
 
     result = generate_personalized_impact(
-        bill_summary=request.bill_summary,
-        user_context=request.user_context.dict()
+        # bill_summary="increase income tax for free childcare",
+        # user_context="teacher in rural area with kids"
     )
 
     return result
 
+# @app.post("/personalize")
+# def personalize_policy(request: PersonalizationRequest):
+#     try:
+#         # Pass raw input data to the processing function
+#         result = generate_personalized_impact(request.input_data)
+#         return result
+#     except ValueError as ve:
+#         print("Error in Gemini API:", ve)
+#         return {"error": "Failed to analyze policy. Invalid response from Gemini API."}
+#     except Exception as e:
+#         print("Unexpected error:", e)
+#         return {"error": "An unexpected error occurred. Please try again later."}
+
+
 #debugging
-'''
-@app.get("/test-gemini")
-def test_gemini():
-    try:
-        response = model.generate_content(
-            "Explain in one sentence how a 1% property tax increase affects renters."
-        )
-        return {"result": response.text}
-    except Exception as e:
-        print("Test Gemini Error:", e)  # Log the error details
-        return {"error": "Failed to connect to Gemini API", "details": str(e)}
+
+# @app.get("/test-gemini")
+# def test_gemini():
+#     try:
+#         response = model.generate_content(
+#             "Explain in one sentence how a 1% property tax increase affects renters."
+#         )
+#         return {"result": response.text}
+#     except Exception as e:
+#         print("Test Gemini Error:", e)  # Log the error details
+#         return {"error": "Failed to connect to Gemini API", "details": str(e)}
 
 
-'''
