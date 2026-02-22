@@ -34,7 +34,7 @@ def prepare_local_data(state_name, crime_csv, tax_csv):
 
 # --- 3. RAPIDFIRE HYPERPARALLEL PREDICTION ---
 def get_parallel_predictions(state_name, bill_summary):
-    crime_df, tax_df = prepare_local_data(state_name, "data/processed_crimes.csv", "data/formatted_tax_rates.csv")
+    crime_df, tax_df = prepare_local_data(state_name, "processed_crimes.csv", "formatted_tax_rates.csv")
 
     crime_str = crime_df.tail(5).to_csv(index=False)
     tax_str = tax_df.tail(5).to_csv(index=False)
