@@ -11,31 +11,11 @@ interface InputAreaProps {
   onSubmit: (content: string) => void;
 }
 
-const modeGlow: Record<InputMode, { shadow: string; border: string; activeBg: string; activeText: string }> = {
-  text:   {
-    shadow:    "0 0 12px 2px hsl(262 60% 58% / 0.55), 0 0 32px 4px hsl(262 60% 58% / 0.25)",
-    border:    "hsl(262 60% 58%)",
-    activeBg:  "hsl(262 60% 58% / 0.15)",
-    activeText:"hsl(262 60% 72%)",
-  },
-  upload: {
-    shadow:    "0 0 12px 2px hsl(172 52% 46% / 0.55), 0 0 32px 4px hsl(172 52% 46% / 0.25)",
-    border:    "hsl(172 52% 46%)",
-    activeBg:  "hsl(172 52% 46% / 0.15)",
-    activeText:"hsl(172 52% 60%)",
-  },
-  scan:   {
-    shadow:    "0 0 12px 2px hsl(38 92% 56% / 0.55), 0 0 32px 4px hsl(38 92% 56% / 0.25)",
-    border:    "hsl(38 92% 56%)",
-    activeBg:  "hsl(38 92% 56% / 0.15)",
-    activeText:"hsl(38 92% 65%)",
-  },
-  audio:  {
-    shadow:    "0 0 12px 2px hsl(4 78% 63% / 0.55), 0 0 32px 4px hsl(4 78% 63% / 0.25)",
-    border:    "hsl(4 78% 63%)",
-    activeBg:  "hsl(4 78% 63% / 0.15)",
-    activeText:"hsl(4 78% 72%)",
-  },
+const modeGlow: Record<InputMode, any> = {
+  text: { shadow: "0 0 12px 2px hsl(262 60% 58% / 0.55)", border: "hsl(262 60% 58%)", activeBg: "hsl(262 60% 58% / 0.15)", activeText: "hsl(262 60% 72%)" },
+  upload: { shadow: "0 0 12px 2px hsl(172 52% 46% / 0.55)", border: "hsl(172 52% 46%)", activeBg: "hsl(172 52% 46% / 0.15)", activeText: "hsl(172 52% 60%)" },
+  scan: { shadow: "0 0 12px 2px hsl(38 92% 56% / 0.55)", border: "hsl(38 92% 56%)", activeBg: "hsl(38 92% 56% / 0.15)", activeText: "hsl(38 92% 65%)" },
+  audio: { shadow: "0 0 12px 2px hsl(4 78% 63% / 0.55)", border: "hsl(4 78% 63%)", activeBg: "hsl(4 78% 63% / 0.15)", activeText: "hsl(4 78% 72%)" },
 };
 
 const InputArea = ({ onSubmit }: InputAreaProps) => {
@@ -50,9 +30,11 @@ const InputArea = ({ onSubmit }: InputAreaProps) => {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [scannedFile, setScannedFile] = useState<File | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
+  const scanRef = useRef<HTMLInputElement>(null);
   const scanImageRef = useRef<HTMLInputElement>(null);
 
   const glow = modeGlow[mode];
+  const canSubmit = text.trim().length > 0;
 
   const modes: { id: InputMode; label: string; icon: React.ReactNode }[] = [
     { id: "text",   label: "Text",   icon: <FileText size={18} /> },
@@ -70,14 +52,9 @@ const InputArea = ({ onSubmit }: InputAreaProps) => {
         const url = URL.createObjectURL(file);
         setFilePreview(url);
         setText(`[Uploaded image: ${file.name}]`);
-      } else if (
-        file.type.startsWith("text/") ||
-        file.name.endsWith(".txt") ||
-        file.name.endsWith(".md") ||
-        file.name.endsWith(".csv")
-      ) {
+      } else if (file.type.startsWith("text/") || file.name.endsWith(".txt") || file.name.endsWith(".md") || file.name.endsWith(".csv")) {
         const reader = new FileReader();
-        reader.onload = (ev) => setText((ev.target?.result as string) || `[Uploaded: ${file.name}]`);
+        reader.onload = (ev) => setText(ev.target?.result as string || `[Uploaded: ${file.name}]`);
         reader.readAsText(file);
         setFilePreview(null);
       } else {
@@ -87,7 +64,7 @@ const InputArea = ({ onSubmit }: InputAreaProps) => {
     }
   };
 
-  const handleScanImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleScan = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       setScannedFile(file);  // ← store it
@@ -110,23 +87,26 @@ const InputArea = ({ onSubmit }: InputAreaProps) => {
     setScannedFile(null);
     setScanPreview(null);
     setText("");
-    if (scanImageRef.current) scanImageRef.current.value = "";
+    if (scanRef.current) scanRef.current.value = "";
   };
 
   const toggleRecording = () => {
     if (isRecording) {
       setIsRecording(false);
-      const simulated =
-        "Transcribed audio content would appear here. For now, this is a simulated transcription of your voice input.";
-      setAudioText(simulated);
-      setText(simulated);
+      setAudioText("Transcribed audio content would appear here. For now, this is a simulated transcription of your voice input.");
+      setText("Transcribed audio content would appear here. For now, this is a simulated transcription of your voice input.");
     } else {
       setIsRecording(true);
       setAudioText("");
     }
   };
 
-  const canSubmit = text.trim().length > 0;
+  const getSubmitContent = () => {
+    if (mode === "upload" && contextText.trim()) {
+      return `${text}\n\nContext: ${contextText}`;
+    }
+    return text;
+  };
 
   const handleSubmit = async () => {
     try {
@@ -291,7 +271,7 @@ const InputArea = ({ onSubmit }: InputAreaProps) => {
                 accept="image/*"
                 capture="environment"
                 className="hidden"
-                onChange={handleScanImage}
+                onChange={handleScan}
               />
               {scanPreview ? (
                 <div className="relative w-full">
