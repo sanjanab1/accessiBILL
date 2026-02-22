@@ -5,11 +5,13 @@ import { useEffect, useRef } from "react";
 import Plotly from 'plotly.js-dist-min';
 
 import { getPlotData } from "@/lib/api";
-
+import CameraOCR from "@/components/Camera";
 
 const Results = () => {
   const location = useLocation();
   const data = location.state?.data;
+  //const summary = useRef(null);
+  //const state = useRef(null);
   const chart1Ref = useRef(null);
   const chart2Ref = useRef(null);
   
@@ -18,11 +20,14 @@ const Results = () => {
     window.location.href = "/";
   };
 
+  //call useffect to get state and bill summary + display
+
   useEffect(() => {
     if (!data) return;
 
     const fetchAndRenderPlots = async () => {
       try {
+        //replace with state and summary
         const plots = await getPlotData(data.state, data.bill_summary);
         
         if (chart1Ref.current) {
@@ -44,6 +49,7 @@ const Results = () => {
     <div className="min-h-screen bg-background px-4 py-16 md:py-24">
       <div className="max-w-2xl mx-auto">
         {/* Results */}
+        <CameraOCR />
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
