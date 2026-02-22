@@ -121,7 +121,7 @@ const InputArea = ({ onSubmit }: InputAreaProps) => {
         summary,
         ...personalizeResult,
         bill_summary: summary,
-        state: "Texas",
+        state: "California",
       }));
 
     } catch (error) {
