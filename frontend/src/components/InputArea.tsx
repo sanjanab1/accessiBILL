@@ -93,7 +93,6 @@ const InputArea = ({ onSubmit }: InputAreaProps) => {
       setScannedFile(file);  // ← store it
       const url = URL.createObjectURL(file);
       setScanPreview(url);
-      setScanTextContent(null);
       setText(`[Scanned: ${file.name}]`);
     }
   };
