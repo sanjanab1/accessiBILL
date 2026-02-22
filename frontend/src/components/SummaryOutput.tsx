@@ -31,9 +31,9 @@ const SummaryOutput = ({ data }: SummaryOutputProps) => {
       {data.summary && (
         <div className="p-4 bg-muted rounded-lg">
           <h2 className="font-semibold mb-2 flex items-center gap-2">
-            <Lightbulb size={18} /> Bill Analysis
+            <Lightbulb size={20} /> Analysis
           </h2>
-          <p className="text-sm leading-relaxed">{String(data.summary)}</p>
+          <p className="text-md leading-relaxed">{String(data.summary)}</p>
         </div>
       )}
     </motion.div>

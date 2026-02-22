@@ -9,7 +9,7 @@ from google import genai
 load_dotenv()
 # Replace these with your actual keys or set them in your environment
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-RAPIDFIRE_API_KEY = os.getenv("RAPIDFIRE_API_KEY")
+#RAPIDFIRE_API_KEY = os.getenv("RAPIDFIRE_API_KEY")
 
 # Initialize Clients
 #rf_client = RapidFireClient(api_key=RAPIDFIRE_API_KEY)
@@ -43,8 +43,8 @@ def get_parallel_predictions(state_name, bill_summary):
     # We define different "Lenses" for RapidFire to run in parallel
     prediction_scenarios = [
         #{"name": "Optimistic", "prompt_bias": "Assume the bill's goals are 100% met with high efficiency."},
-        {"name": "Pessimistic", "prompt_bias": "Assume implementation delays and unintended social consequences."},
-        #{"name": "Balanced", "prompt_bias": "Provide a moderate, statistically likely outcome based on historical precedents."}
+        #{"name": "Pessimistic", "prompt_bias": "Assume implementation delays and unintended social consequences."},
+        {"name": "Balanced", "prompt_bias": "Provide a moderate, statistically likely outcome based on historical precedents."}
     ]
     
     # Launching Hyperparallel Experiments via RapidFire
@@ -61,7 +61,7 @@ def get_parallel_predictions(state_name, bill_summary):
         {scenario['prompt_bias']}
         
         Predict the next 2 years (2026, 2027) for:
-        1. Violent Crime Rate (numeric)
+        1. Property Crime Rate (numeric)
         2. Income Tax Rate (numeric)
         
         Return ONLY valid JSON: {{"2026": {{"crime": x, "tax": y}}, "2027": {{"crime": x, "tax": y}}}}
@@ -69,107 +69,142 @@ def get_parallel_predictions(state_name, bill_summary):
         
         # In a real RapidFire workflow, you'd use rf_client.run_config()
         # Here we demonstrate the loop that RapidFire would optimize/parallelize
-        # response = gemini_client.models.generate_content(
-        #     model="gemini-2.5-flash-lite",
-        #     contents=full_prompt
-        # )
-        # results.append({"scenario": scenario['name'], "data": response.text})
+        response = gemini_client.models.generate_content(
+            model="gemini-2.5-flash-lite",
+            contents=full_prompt
+        )
+        results.append({"scenario": scenario['name'], "data": response.text})
         
     return results, crime_df, tax_df
 
 # --- 4. THE PLOTTER ---
-def plot_impact_dashboard(state_name, bill_summary):
-    predictions, history_df, tax_df = get_parallel_predictions(state_name, bill_summary)    
+# def plot_impact_dashboard(state_name, bill_summary):
+#     predictions, history_df, tax_df = get_parallel_predictions(state_name, bill_summary)    
 
+#     fig = go.Figure()
+
+#     # Plot Historical Crime
+#     fig.add_trace(go.Scatter(
+#         x=history_df['year'], y=history_df['crime_rate'],
+#         name="Historical Crime", line=dict(color='black', width=4)
+#     ))
+
+#     # Add Prediction Lines from AI
+#     colors = {'Optimistic': 'green', 'Pessimistic': 'red', 'Balanced': 'blue'}
+    
+#     for pred in predictions:
+#         # Parse the JSON from Gemini (simple cleanup usually needed)
+#         # Note: In a real app, use pydantic for parsing
+#         import json
+#         try:
+#             p_data = json.loads(pred['data'].strip('`json\n '))
+#             p_years = [2025, 2026, 2027]
+#             # Connect the last historical point to the new predictions
+#             p_vals = [history_df['crime_rate'].iloc[-1], p_data['2026']['crime'], p_data['2027']['crime']]
+            
+#             fig.add_trace(go.Scatter(
+#                 x=p_years, y=p_vals,
+#                 name=f"Forecast ({pred['scenario']})",
+#                 line=dict(dash='dot', color=colors[pred['scenario']])
+#             ))
+#         except:
+#             continue
+
+#     fig.update_layout(title="Property Crime", 
+#                       xaxis_title="Year", 
+#                       yaxis_title="Property Crime Rate (%)",
+#                       yaxis=dict(
+#                             range=[0,5],      # Set your fixed min/max here
+#                             dtick=0.5,            # Tick every 0.5 units
+#                             tick0=0,              # Start ticks at 0
+#                         )
+#                       )
+#     return fig.to_json()
+
+
+# def plot_impact_dashboard2(state_name, bill_summary):
+#     predictions, crime_df, tax_df = get_parallel_predictions(state_name, bill_summary)
+
+#     fig = go.Figure()
+
+#     # Plot Historical Crime
+#     fig.add_trace(go.Scatter(
+#         x=tax_df['year'], y=tax_df['tax_rate'],
+#         name="Historical Tax Rate", line=dict(color='black', width=4)
+#     ))
+
+#     # Add Prediction Lines from AI
+#     colors = {'Optimistic': 'green', 'Pessimistic': 'red', 'Balanced': 'blue'}
+    
+#     for pred in predictions:
+#         # Parse the JSON from Gemini (simple cleanup usually needed)
+#         # Note: In a real app, use pydantic for parsing
+#         import json
+#         try:
+#             p_data = json.loads(pred['data'].strip('`json\n '))
+#             p_years = [2025, 2026, 2027]
+#             # Connect the last historical point to the new predictions
+#             p_vals = [tax_df['tax_rate'].iloc[-1], p_data['2026']['tax'], p_data['2027']['tax']]
+            
+#             fig.add_trace(go.Scatter(
+#                 x=p_years, y=p_vals,
+#                 name=f"Forecast ({pred['scenario']})",
+#                 line=dict(dash='dot', color=colors[pred['scenario']])
+#             ))
+#         except:
+#             continue
+
+#     fig.update_layout(title="Income Tax", 
+#                       xaxis_title="Year", 
+#                       yaxis_title="Income Tax Rate (%)",
+#                       yaxis=dict(
+#                             range=[0,14],      # Set your fixed min/max here
+#                             dtick=2,            # Tick every 2 units
+#                             tick0=0,              # Start ticks at 0
+#                         )
+#                       )
+#     return fig.to_json()
+
+
+def plot_crime(predictions, crime_df):
     fig = go.Figure()
-
-    # Plot Historical Crime
     fig.add_trace(go.Scatter(
-        x=history_df['year'], y=history_df['crime_rate'],
+        x=crime_df['year'], y=crime_df['crime_rate'],
         name="Historical Crime", line=dict(color='black', width=4)
     ))
-
-    # Add Prediction Lines from AI
     colors = {'Optimistic': 'green', 'Pessimistic': 'red', 'Balanced': 'blue'}
-    
     for pred in predictions:
-        # Parse the JSON from Gemini (simple cleanup usually needed)
-        # Note: In a real app, use pydantic for parsing
         import json
         try:
             p_data = json.loads(pred['data'].strip('`json\n '))
             p_years = [2025, 2026, 2027]
-            # Connect the last historical point to the new predictions
-            p_vals = [history_df['crime_rate'].iloc[-1], p_data['2026']['crime'], p_data['2027']['crime']]
-            
-            fig.add_trace(go.Scatter(
-                x=p_years, y=p_vals,
-                name=f"Forecast ({pred['scenario']})",
-                line=dict(dash='dot', color=colors[pred['scenario']])
-            ))
+            p_vals = [crime_df['crime_rate'].iloc[-1], p_data['2026']['crime'], p_data['2027']['crime']]
+            fig.add_trace(go.Scatter(x=p_years, y=p_vals, name=f"Forecast ({pred['scenario']})",
+                line=dict(dash='dot', color=colors[pred['scenario']])))
         except:
             continue
-
-    fig.update_layout(title="Local Bill Impact Analysis", 
-                      xaxis_title="Year", 
-                      yaxis_title="Crime Rate (%)",
-                      yaxis=dict(
-                            range=[0,5],      # Set your fixed min/max here
-                            dtick=0.5,            # Tick every 0.5 units
-                            tick0=0,              # Start ticks at 0
-                        )
-                      )
+    fig.update_layout(title="Property Crime", xaxis_title="Year", yaxis_title="Property Crime Rate (%)",
+        yaxis=dict(range=[0,5], dtick=0.5, tick0=0))
     return fig.to_json()
 
 
-def plot_impact_dashboard2(state_name, bill_summary):
-    predictions, crime_df, history_df = get_parallel_predictions(state_name, bill_summary)    
-
+def plot_tax(predictions, tax_df):
     fig = go.Figure()
-
-    # Plot Historical Crime
     fig.add_trace(go.Scatter(
-        x=history_df['year'], y=history_df['tax_rate'],
+        x=tax_df['year'], y=tax_df['tax_rate'],
         name="Historical Tax Rate", line=dict(color='black', width=4)
     ))
-
-    # Add Prediction Lines from AI
     colors = {'Optimistic': 'green', 'Pessimistic': 'red', 'Balanced': 'blue'}
-    
     for pred in predictions:
-        # Parse the JSON from Gemini (simple cleanup usually needed)
-        # Note: In a real app, use pydantic for parsing
         import json
         try:
             p_data = json.loads(pred['data'].strip('`json\n '))
             p_years = [2025, 2026, 2027]
-            # Connect the last historical point to the new predictions
-            p_vals = [history_df['tax_rate'].iloc[-1], p_data['2026']['tax'], p_data['2027']['tax']]
-            
-            fig.add_trace(go.Scatter(
-                x=p_years, y=p_vals,
-                name=f"Forecast ({pred['scenario']})",
-                line=dict(dash='dot', color=colors[pred['scenario']])
-            ))
+            p_vals = [tax_df['tax_rate'].iloc[-1], p_data['2026']['tax'], p_data['2027']['tax']]
+            fig.add_trace(go.Scatter(x=p_years, y=p_vals, name=f"Forecast ({pred['scenario']})",
+                line=dict(dash='dot', color=colors[pred['scenario']])))
         except:
             continue
-
-    fig.update_layout(title="Local Bill Impact Analysis", 
-                      xaxis_title="Year", 
-                      yaxis_title="Tax Rate (%)",
-                      yaxis=dict(
-                            range=[0,14],      # Set your fixed min/max here
-                            dtick=2,            # Tick every 2 units
-                            tick0=0,              # Start ticks at 0
-                        )
-                      )
+    fig.update_layout(title="Income Tax", xaxis_title="Year", yaxis_title="Income Tax Rate (%)",
+        yaxis=dict(range=[0,14], dtick=2, tick0=0))
     return fig.to_json()
-
-
-
-
-    
-# --- EXECUTION ---
-crime_json = plot_impact_dashboard("Texas", "Completely get rid of violent crime. No criminals leave prison. Life sentences for all.")
-tax_json = plot_impact_dashboard2("Texas", "Completely get rid of violent crime. No criminals leave prison. Life sentences for all.")
-

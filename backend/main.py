@@ -11,7 +11,7 @@ import fitz
 from docx import Document as DocxDocument
 import io
 
-from plots import plot_impact_dashboard, plot_impact_dashboard2
+from plots import get_parallel_predictions, plot_crime, plot_tax
 from gemini_service import generate_personalized_impact
 
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -93,16 +93,26 @@ async def ocr(file: UploadFile = File(...)):
 
 @app.post("/plot")
 def plot(data: dict):
-    state_name = data.get("state_name", "Texas")
+    state_name = data.get("state", "California")
     bill_summary = data.get("bill_summary", "Standard summary if none provided.")
-    crime_json = plot_impact_dashboard(state_name, bill_summary)
-    tax_json = plot_impact_dashboard2(state_name, bill_summary)
+    
+    # Single API call for both charts
+    predictions, crime_df, tax_df = get_parallel_predictions(state_name, bill_summary)
+    
+    crime_json = plot_crime(predictions, crime_df)
+    tax_json = plot_tax(predictions, tax_df)
+    
     return {
         "crime_plot": json.loads(crime_json),
         "tax_plot": json.loads(tax_json)
     }
 
 @app.post("/personalize")
-def personalize_policy():
-    result = generate_personalized_impact()
+def personalize_policy(data: dict):
+    bill_summary = data.get("bill_summary", "")
+    user_context = data.get("user_context", "general citizen")
+    result = generate_personalized_impact(
+        bill_summary=bill_summary,
+        user_context=user_context
+    )
     return result
