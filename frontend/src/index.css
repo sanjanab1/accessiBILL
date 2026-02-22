@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --font-sans: 'DM Sans', 'Helvetica Neue', sans-serif;
+    --font-display: 'Inter', 'Helvetica Neue', sans-serif;
+
+    --background: 240 40% 4%;        /* #07070d */
+    --foreground: 220 10% 75%;       /* light grey body text */
+
+    --card: 240 30% 7%;
+    --card-foreground: 220 10% 75%;
+
+    --popover: 240 30% 7%;
+    --popover-foreground: 220 10% 75%;
+
+    --primary: 0 0% 100%;            /* white for titles */
+    --primary-foreground: 240 40% 4%;
+
+    --secondary: 240 20% 12%;
+    --secondary-foreground: 220 10% 75%;
+
+    --muted: 240 20% 10%;
+    --muted-foreground: 220 10% 50%;
+
+    --accent: 16 80% 58%;
+    --accent-foreground: 0 0% 100%;
+
+    --highlight-coral: 4 78% 63%;
+    --highlight-teal: 172 52% 46%;
+    --highlight-amber: 38 92% 56%;
+    --highlight-violet: 262 60% 58%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 240 20% 14%;
+    --input: 240 20% 14%;
+    --ring: 0 0% 100%;
+
+    --radius: 0.625rem;
+
+    --sidebar-background: 240 40% 4%;
+    --sidebar-foreground: 220 10% 75%;
+    --sidebar-primary: 0 0% 100%;
+    --sidebar-primary-foreground: 240 40% 4%;
+    --sidebar-accent: 240 20% 10%;
+    --sidebar-accent-foreground: 220 10% 75%;
+    --sidebar-border: 240 20% 14%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 240 40% 4%;
+    --foreground: 220 10% 75%;
+    --card: 240 30% 7%;
+    --card-foreground: 220 10% 75%;
+    --popover: 240 30% 7%;
+    --popover-foreground: 220 10% 75%;
+    --primary: 0 0% 100%;
+    --primary-foreground: 240 40% 4%;
+    --secondary: 240 20% 12%;
+    --secondary-foreground: 220 10% 75%;
+    --muted: 240 20% 10%;
+    --muted-foreground: 220 10% 50%;
+    --accent: 16 80% 58%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 240 20% 14%;
+    --input: 240 20% 14%;
+    --ring: 0 0% 100%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-sans);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    color: hsl(0 0% 100%);           /* white headings */
+  }
+}
+
+@layer utilities {
+  .highlight-coral {
+    background-color: hsl(var(--highlight-coral) / 0.15);
+    border-left: 3px solid hsl(var(--highlight-coral));
+    padding: 0.75rem 1rem;
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+  .highlight-teal {
+    background-color: hsl(var(--highlight-teal) / 0.12);
+    border-left: 3px solid hsl(var(--highlight-teal));
+    padding: 0.75rem 1rem;
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+  .highlight-amber {
+    background-color: hsl(var(--highlight-amber) / 0.15);
+    border-left: 3px solid hsl(var(--highlight-amber));
+    padding: 0.75rem 1rem;
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+  .highlight-violet {
+    background-color: hsl(var(--highlight-violet) / 0.12);
+    border-left: 3px solid hsl(var(--highlight-violet));
+    padding: 0.75rem 1rem;
+    border-radius: 0 var(--radius) var(--radius) 0;
+  }
+  .text-coral { color: hsl(var(--highlight-coral)); }
+  .text-teal { color: hsl(var(--highlight-teal)); }
+  .text-amber { color: hsl(var(--highlight-amber)); }
+  .text-violet { color: hsl(var(--highlight-violet)); }
+  .bg-coral { background-color: hsl(var(--highlight-coral)); }
+  .bg-teal { background-color: hsl(var(--highlight-teal)); }
+  .bg-amber { background-color: hsl(var(--highlight-amber)); }
+  .bg-violet { background-color: hsl(var(--highlight-violet)); }
+}

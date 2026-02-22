@@ -1,0 +1,562 @@
+year,state,tax_rate
+2016,Alabama,5.0
+2016,Alaska,0.0
+2016,Arizona,4.54
+2016,Arkansas,6.9
+2016,California,13.3
+2016,Colorado,4.63
+2016,Connecticut,6.99
+2016,Delaware,6.6
+2016,District of Columbia,8.95
+2016,Florida,0.0
+2016,Georgia,6.0
+2016,Hawaii,8.25
+2016,Idaho,7.4
+2016,Illinois,3.75
+2016,Indiana,3.3
+2016,Iowa,8.98
+2016,Kansas,4.6
+2016,Kentucky,6.0
+2016,Louisiana,6.0
+2016,Maine,7.15
+2016,Maryland,5.75
+2016,Massachusetts,5.1
+2016,Michigan,4.25
+2016,Minnesota,9.85
+2016,Mississippi,5.0
+2016,Missouri,6.0
+2016,Montana,6.9
+2016,Nebraska,6.84
+2016,Nevada,0.0
+2016,New Hampshire,0.0
+2016,New Jersey,8.97
+2016,New Mexico,4.9
+2016,New York,8.82
+2016,North Carolina,5.75
+2016,North Dakota,2.9
+2016,Ohio,4.997
+2016,Oklahoma,5.0
+2016,Oregon,9.9
+2016,Pennsylvania,3.07
+2016,Rhode Island,5.99
+2016,South Carolina,7.0
+2016,South Dakota,0.0
+2016,Tennessee,0.0
+2016,Texas,0.0
+2016,Utah,5.0
+2016,Vermont,8.95
+2016,Virginia,5.75
+2016,Washington,0.0
+2016,West Virginia,6.5
+2016,Wisconsin,7.65
+2016,Wyoming,0.0
+2017,Alabama,5.0
+2017,Alaska,0.0
+2017,Arizona,4.54
+2017,Arkansas,6.9
+2017,California,13.3
+2017,Colorado,4.63
+2017,Connecticut,6.99
+2017,Delaware,6.6
+2017,District of Columbia,8.95
+2017,Florida,0.0
+2017,Georgia,6.0
+2017,Hawaii,8.25
+2017,Idaho,7.4
+2017,Illinois,3.75
+2017,Indiana,3.23
+2017,Iowa,8.98
+2017,Kansas,4.6
+2017,Kentucky,6.0
+2017,Louisiana,6.0
+2017,Maine,7.15
+2017,Maryland,5.75
+2017,Massachusetts,5.1
+2017,Michigan,4.25
+2017,Minnesota,9.85
+2017,Mississippi,5.0
+2017,Missouri,6.0
+2017,Montana,6.9
+2017,Nebraska,6.84
+2017,Nevada,0.0
+2017,New Hampshire,0.0
+2017,New Jersey,8.97
+2017,New Mexico,4.9
+2017,New York,8.82
+2017,North Carolina,5.499
+2017,North Dakota,2.9
+2017,Ohio,4.997
+2017,Oklahoma,5.0
+2017,Oregon,9.9
+2017,Pennsylvania,3.07
+2017,Rhode Island,5.99
+2017,South Carolina,7.0
+2017,South Dakota,0.0
+2017,Tennessee,0.0
+2017,Texas,0.0
+2017,Utah,5.0
+2017,Vermont,8.95
+2017,Virginia,5.75
+2017,Washington,0.0
+2017,West Virginia,6.5
+2017,Wisconsin,7.65
+2017,Wyoming,0.0
+2018,Alabama,5.0
+2018,Alaska,0.0
+2018,Arizona,4.54
+2018,Arkansas,6.9
+2018,California,13.3
+2018,Colorado,4.63
+2018,Connecticut,6.99
+2018,Delaware,6.6
+2018,District of Columbia,8.95
+2018,Florida,0.0
+2018,Georgia,6.0
+2018,Hawaii,11.0
+2018,Idaho,7.4
+2018,Illinois,4.95
+2018,Indiana,3.23
+2018,Iowa,8.98
+2018,Kansas,5.7
+2018,Kentucky,6.0
+2018,Louisiana,6.0
+2018,Maine,7.15
+2018,Maryland,5.75
+2018,Massachusetts,5.1
+2018,Michigan,4.25
+2018,Minnesota,9.85
+2018,Mississippi,5.0
+2018,Missouri,5.9
+2018,Montana,6.9
+2018,Nebraska,6.84
+2018,Nevada,0.0
+2018,New Hampshire,0.0
+2018,New Jersey,8.97
+2018,New Mexico,4.9
+2018,New York,8.82
+2018,North Carolina,5.499
+2018,North Dakota,2.9
+2018,Ohio,4.997
+2018,Oklahoma,5.0
+2018,Oregon,9.9
+2018,Pennsylvania,3.07
+2018,Rhode Island,5.99
+2018,South Carolina,7.0
+2018,South Dakota,0.0
+2018,Tennessee,0.0
+2018,Texas,0.0
+2018,Utah,4.95
+2018,Vermont,8.75
+2018,Virginia,5.75
+2018,Washington,0.0
+2018,West Virginia,6.5
+2018,Wisconsin,7.65
+2018,Wyoming,0.0
+2019,Alabama,5.0
+2019,Alaska,0.0
+2019,Arizona,4.54
+2019,Arkansas,6.9
+2019,California,13.3
+2019,Colorado,4.63
+2019,Connecticut,6.99
+2019,Delaware,6.6
+2019,District of Columbia,8.95
+2019,Florida,0.0
+2019,Georgia,5.75
+2019,Hawaii,11.0
+2019,Idaho,6.925
+2019,Illinois,4.95
+2019,Indiana,3.23
+2019,Iowa,8.53
+2019,Kansas,5.7
+2019,Kentucky,5.0
+2019,Louisiana,6.0
+2019,Maine,7.15
+2019,Maryland,5.75
+2019,Massachusetts,5.05
+2019,Michigan,4.25
+2019,Minnesota,9.85
+2019,Mississippi,5.0
+2019,Missouri,5.4
+2019,Montana,6.9
+2019,Nebraska,6.84
+2019,Nevada,0.0
+2019,New Hampshire,0.0
+2019,New Jersey,10.75
+2019,New Mexico,4.9
+2019,New York,8.82
+2019,North Carolina,5.25
+2019,North Dakota,2.9
+2019,Ohio,4.997
+2019,Oklahoma,5.0
+2019,Oregon,9.9
+2019,Pennsylvania,3.07
+2019,Rhode Island,5.99
+2019,South Carolina,7.0
+2019,South Dakota,0.0
+2019,Tennessee,0.0
+2019,Texas,0.0
+2019,Utah,4.95
+2019,Vermont,8.75
+2019,Virginia,5.75
+2019,Washington,0.0
+2019,West Virginia,6.5
+2019,Wisconsin,7.65
+2019,Wyoming,0.0
+2020,Alabama,5.0
+2020,Alaska,0.0
+2020,Arizona,4.5
+2020,Arkansas,6.6
+2020,California,13.3
+2020,Colorado,4.55
+2020,Connecticut,6.99
+2020,Delaware,6.6
+2020,District of Columbia,8.95
+2020,Florida,0.0
+2020,Georgia,5.75
+2020,Hawaii,11.0
+2020,Idaho,6.925
+2020,Illinois,4.95
+2020,Indiana,3.23
+2020,Iowa,8.53
+2020,Kansas,5.7
+2020,Kentucky,5.0
+2020,Louisiana,6.0
+2020,Maine,7.15
+2020,Maryland,5.75
+2020,Massachusetts,5.05
+2020,Michigan,4.25
+2020,Minnesota,9.85
+2020,Mississippi,5.0
+2020,Missouri,5.4
+2020,Montana,6.9
+2020,Nebraska,6.84
+2020,Nevada,0.0
+2020,New Hampshire,0.0
+2020,New Jersey,10.75
+2020,New Mexico,4.9
+2020,New York,8.82
+2020,North Carolina,5.25
+2020,North Dakota,2.9
+2020,Ohio,4.797
+2020,Oklahoma,5.0
+2020,Oregon,9.9
+2020,Pennsylvania,3.07
+2020,Rhode Island,5.99
+2020,South Carolina,7.0
+2020,South Dakota,0.0
+2020,Tennessee,0.0
+2020,Texas,0.0
+2020,Utah,4.95
+2020,Vermont,8.75
+2020,Virginia,5.75
+2020,Washington,0.0
+2020,West Virginia,6.5
+2020,Wisconsin,7.65
+2020,Wyoming,0.0
+2021,Alabama,5.0
+2021,Alaska,0.0
+2021,Arizona,4.5
+2021,Arkansas,5.9
+2021,California,13.3
+2021,Colorado,4.55
+2021,Connecticut,6.99
+2021,Delaware,6.6
+2021,District of Columbia,8.95
+2021,Florida,0.0
+2021,Georgia,5.75
+2021,Hawaii,11.0
+2021,Idaho,6.925
+2021,Illinois,4.95
+2021,Indiana,3.23
+2021,Iowa,8.53
+2021,Kansas,5.7
+2021,Kentucky,5.0
+2021,Louisiana,6.0
+2021,Maine,7.15
+2021,Maryland,5.75
+2021,Massachusetts,5.0
+2021,Michigan,4.25
+2021,Minnesota,9.85
+2021,Mississippi,5.0
+2021,Missouri,5.4
+2021,Montana,6.9
+2021,Nebraska,6.84
+2021,Nevada,0.0
+2021,New Hampshire,0.0
+2021,New Jersey,10.75
+2021,New Mexico,5.9
+2021,New York,8.82
+2021,North Carolina,5.25
+2021,North Dakota,2.9
+2021,Ohio,4.797
+2021,Oklahoma,5.0
+2021,Oregon,9.9
+2021,Pennsylvania,3.07
+2021,Rhode Island,5.99
+2021,South Carolina,7.0
+2021,South Dakota,0.0
+2021,Tennessee,0.0
+2021,Texas,0.0
+2021,Utah,4.95
+2021,Vermont,8.75
+2021,Virginia,5.75
+2021,Washington,0.0
+2021,West Virginia,6.5
+2021,Wisconsin,7.65
+2021,Wyoming,0.0
+2022,Alabama,5.0
+2022,Alaska,0.0
+2022,Arizona,4.5
+2022,Arkansas,4.9
+2022,California,13.3
+2022,Colorado,4.4
+2022,Connecticut,6.99
+2022,Delaware,6.6
+2022,District of Columbia,10.75
+2022,Florida,0.0
+2022,Georgia,5.75
+2022,Hawaii,11.0
+2022,Idaho,6.5
+2022,Illinois,4.95
+2022,Indiana,3.23
+2022,Iowa,8.53
+2022,Kansas,5.7
+2022,Kentucky,5.0
+2022,Louisiana,4.25
+2022,Maine,7.15
+2022,Maryland,5.75
+2022,Massachusetts,5.0
+2022,Michigan,4.25
+2022,Minnesota,9.85
+2022,Mississippi,5.0
+2022,Missouri,5.3
+2022,Montana,6.75
+2022,Nebraska,6.84
+2022,Nevada,0.0
+2022,New Hampshire,0.0
+2022,New Jersey,10.75
+2022,New Mexico,5.9
+2022,New York,10.9
+2022,North Carolina,4.99
+2022,North Dakota,2.9
+2022,Ohio,3.99
+2022,Oklahoma,4.75
+2022,Oregon,9.9
+2022,Pennsylvania,3.07
+2022,Rhode Island,5.99
+2022,South Carolina,6.5
+2022,South Dakota,0.0
+2022,Tennessee,0.0
+2022,Texas,0.0
+2022,Utah,4.85
+2022,Vermont,8.75
+2022,Virginia,5.75
+2022,Washington,0.0
+2022,West Virginia,6.5
+2022,Wisconsin,7.65
+2022,Wyoming,0.0
+2023,Alabama,5.0
+2023,Alaska,0.0
+2023,Arizona,2.5
+2023,Arkansas,4.7
+2023,California,13.3
+2023,Colorado,4.4
+2023,Connecticut,6.99
+2023,Delaware,6.6
+2023,District of Columbia,10.75
+2023,Florida,0.0
+2023,Georgia,5.75
+2023,Hawaii,11.0
+2023,Idaho,5.8
+2023,Illinois,4.95
+2023,Indiana,3.15
+2023,Iowa,6.0
+2023,Kansas,5.7
+2023,Kentucky,4.5
+2023,Louisiana,4.25
+2023,Maine,7.15
+2023,Maryland,5.75
+2023,Massachusetts,9.0
+2023,Michigan,4.05
+2023,Minnesota,9.85
+2023,Mississippi,5.0
+2023,Missouri,4.95
+2023,Montana,6.75
+2023,Nebraska,6.64
+2023,Nevada,0.0
+2023,New Hampshire,0.0
+2023,New Jersey,10.75
+2023,New Mexico,5.9
+2023,New York,10.9
+2023,North Carolina,4.75
+2023,North Dakota,2.9
+2023,Ohio,3.99
+2023,Oklahoma,4.75
+2023,Oregon,9.9
+2023,Pennsylvania,3.07
+2023,Rhode Island,5.99
+2023,South Carolina,6.4
+2023,South Dakota,0.0
+2023,Tennessee,0.0
+2023,Texas,0.0
+2023,Utah,4.65
+2023,Vermont,8.75
+2023,Virginia,5.75
+2023,Washington,0.0
+2023,West Virginia,6.5
+2023,Wisconsin,7.65
+2023,Wyoming,0.0
+2024,Alabama,5.0
+2024,Alaska,0.0
+2024,Arizona,2.5
+2024,Arkansas,3.9
+2024,California,13.3
+2024,Colorado,4.25
+2024,Connecticut,6.99
+2024,Delaware,6.6
+2024,District of Columbia,10.75
+2024,Florida,0.0
+2024,Georgia,5.39
+2024,Hawaii,11.0
+2024,Idaho,5.695
+2024,Illinois,4.95
+2024,Indiana,3.05
+2024,Iowa,5.7
+2024,Kansas,5.58
+2024,Kentucky,4.0
+2024,Louisiana,4.25
+2024,Maine,7.15
+2024,Maryland,5.75
+2024,Massachusetts,9.0
+2024,Michigan,4.25
+2024,Minnesota,9.85
+2024,Mississippi,4.7
+2024,Missouri,4.8
+2024,Montana,5.9
+2024,Nebraska,5.84
+2024,Nevada,0.0
+2024,New Hampshire,0.0
+2024,New Jersey,10.75
+2024,New Mexico,5.9
+2024,New York,10.9
+2024,North Carolina,4.5
+2024,North Dakota,2.9
+2024,Ohio,3.5
+2024,Oklahoma,4.75
+2024,Oregon,9.9
+2024,Pennsylvania,3.07
+2024,Rhode Island,5.99
+2024,South Carolina,6.2
+2024,South Dakota,0.0
+2024,Tennessee,0.0
+2024,Texas,0.0
+2024,Utah,4.55
+2024,Vermont,8.75
+2024,Virginia,5.75
+2024,Washington,0.0
+2024,West Virginia,5.12
+2024,Wisconsin,7.65
+2024,Wyoming,0.0
+2025,Alabama,5.0
+2025,Alaska,0.0
+2025,Arizona,2.5
+2025,Arkansas,3.9
+2025,California,13.3
+2025,Colorado,4.4
+2025,Connecticut,6.99
+2025,Delaware,6.6
+2025,District of Columbia,10.75
+2025,Florida,0.0
+2025,Georgia,5.19
+2025,Hawaii,11.0
+2025,Idaho,5.3
+2025,Illinois,4.95
+2025,Indiana,3.0
+2025,Iowa,3.8
+2025,Kansas,5.58
+2025,Kentucky,4.0
+2025,Louisiana,3.0
+2025,Maine,7.15
+2025,Maryland,6.5
+2025,Massachusetts,9.0
+2025,Michigan,4.25
+2025,Minnesota,9.85
+2025,Mississippi,4.4
+2025,Missouri,4.7
+2025,Montana,5.9
+2025,Nebraska,5.2
+2025,Nevada,0.0
+2025,New Hampshire,0.0
+2025,New Jersey,10.75
+2025,New Mexico,5.9
+2025,New York,10.9
+2025,North Carolina,4.25
+2025,North Dakota,2.5
+2025,Ohio,3.5
+2025,Oklahoma,4.75
+2025,Oregon,9.9
+2025,Pennsylvania,3.07
+2025,Rhode Island,5.99
+2025,South Carolina,6.0
+2025,South Dakota,0.0
+2025,Tennessee,0.0
+2025,Texas,0.0
+2025,Utah,4.5
+2025,Vermont,8.75
+2025,Virginia,5.75
+2025,Washington,0.0
+2025,West Virginia,4.82
+2025,Wisconsin,7.65
+2025,Wyoming,0.0
+2026,Alabama,5.0
+2026,Alaska,0.0
+2026,Arizona,2.5
+2026,Arkansas,3.9
+2026,California,13.3
+2026,Colorado,4.4
+2026,Connecticut,6.99
+2026,Delaware,6.6
+2026,District of Columbia,10.75
+2026,Florida,0.0
+2026,Georgia,5.09
+2026,Hawaii,11.0
+2026,Idaho,5.3
+2026,Illinois,4.95
+2026,Indiana,2.95
+2026,Iowa,3.8
+2026,Kansas,5.58
+2026,Kentucky,3.5
+2026,Louisiana,3.0
+2026,Maine,7.15
+2026,Maryland,6.5
+2026,Massachusetts,9.0
+2026,Michigan,4.25
+2026,Minnesota,9.85
+2026,Mississippi,4.0
+2026,Missouri,4.7
+2026,Montana,5.65
+2026,Nebraska,4.55
+2026,Nevada,0.0
+2026,New Hampshire,0.0
+2026,New Jersey,10.75
+2026,New Mexico,5.9
+2026,New York,10.9
+2026,North Carolina,3.99
+2026,North Dakota,2.5
+2026,Ohio,2.75
+2026,Oklahoma,4.5
+2026,Oregon,9.9
+2026,Pennsylvania,3.07
+2026,Rhode Island,5.99
+2026,South Carolina,5.39
+2026,South Dakota,0.0
+2026,Tennessee,0.0
+2026,Texas,0.0
+2026,Utah,4.5
+2026,Vermont,8.75
+2026,Virginia,5.75
+2026,Washington,0.0
+2026,West Virginia,4.82
+2026,Wisconsin,7.65
+2026,Wyoming,0.0
