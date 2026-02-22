@@ -43,11 +43,38 @@ const Results = () => {
       try {
         const plots = await getPlotData(data.state, data.bill_summary);
 
+        const chartLayout = {
+          ...plots.crime_plot.layout,
+          paper_bgcolor: "#0d0d1e", // Dark blue background
+          plot_bgcolor: "#0d0d1e", // Dark blue background
+          font: {
+            family: "Inter, sans-serif", // Match the font to the results page
+            color: "#ffffff", // White font for visibility
+          },
+        };
+
+        // Update the data to ensure graph lines are visible
+        const updatedCrimeData = plots.crime_plot.data.map((trace) => ({
+          ...trace,
+          line: {
+            color: "#ffcc00", // Yellow lines for visibility
+            width: 2, // Thicker lines
+          },
+        }));
+
+        const updatedTaxData = plots.tax_plot.data.map((trace) => ({
+          ...trace,
+          line: {
+            color: "#ffcc00", // Yellow lines for visibility
+            width: 2, // Thicker lines
+          },
+        }));
+
         if (chart1Ref.current) {
-          Plotly.newPlot(chart1Ref.current, plots.crime_plot.data, plots.crime_plot.layout);
+          Plotly.newPlot(chart1Ref.current, updatedCrimeData, chartLayout);
         }
         if (chart2Ref.current) {
-          Plotly.newPlot(chart2Ref.current, plots.tax_plot.data, plots.tax_plot.layout);
+          Plotly.newPlot(chart2Ref.current, updatedTaxData, chartLayout);
         }
       } catch (error) {
         console.error("Error getting plot data:", error);
@@ -91,14 +118,14 @@ const Results = () => {
             </button>
 
             {data.personalized_impact && (
-              <div className="bg-white rounded-2xl shadow p-6 mb-6">
+              <div className="bg-background border border-[#151531] rounded-2xl shadow p-6 mb-6">
                 <h2 className="text-lg font-semibold mb-2">Your Personalized Impact</h2>
                 <p className="text-muted-foreground leading-relaxed">{data.personalized_impact}</p>
               </div>
             )}
 
             {data.impact_tags && (
-              <div className="bg-white rounded-2xl shadow p-6">
+              <div className="bg-background border border-[#151531] rounded-2xl shadow p-6">
                 <h2 className="text-lg font-semibold mb-4">Impact by Category</h2>
                 <div className="grid grid-cols-2 gap-3">
                   {Object.entries(data.impact_tags).map(([category, level]) => (
