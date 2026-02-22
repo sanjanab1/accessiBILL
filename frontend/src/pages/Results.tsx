@@ -9,7 +9,7 @@ import CameraOCR from "@/components/Camera";
 import { analyzePolicy } from "@/lib/api";
 
 
-const levelColor = {
+const levelColor: Record<string, string> = {
   none: "bg-gray-100 text-gray-500",
   low: "bg-green-100 text-green-700",
   medium: "bg-yellow-100 text-yellow-700",
@@ -76,6 +76,9 @@ const Results = () => {
             ← Start over
           </button>
           
+          {/* Bill Analysis */}
+          <SummaryOutput data={data} />
+
           {/* Impact Summary */}
           {impact && (
             <div className="bg-white rounded-2xl shadow p-6 mb-6">
@@ -92,17 +95,16 @@ const Results = () => {
                 {Object.entries(tags).map(([category, level]) => (
                   <div
                     key={category}
-                    className={`flex items-center justify-between rounded-xl px-4 py-3 ${levelColor[level] ?? "bg-gray-100"}`}
+                    className={`flex items-center justify-between rounded-xl px-4 py-3 ${levelColor[level as string] ?? "bg-gray-100"}`}
                   >
                     <span className="capitalize font-medium">{category}</span>
-                    <span className="capitalize text-sm font-semibold">{level}</span>
+                    <span className="capitalize text-sm font-semibold">{level as string}</span>
                   </div>
                 ))}
               </div>
             </div>
           )}
-          
-          <SummaryOutput data={data} />
+        
           <div ref={chart1Ref} className="mt-8 w-full" />
           <div ref={chart2Ref} className="mt-8 w-full" />
         </motion.div>

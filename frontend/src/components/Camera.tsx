@@ -32,7 +32,7 @@ const CameraOCR = () => {
       setLoading(true);
       try {
         const result = await extractText(blob);
-        setText(result.text);
+        setText(result.summary);
       } catch (err) {
         console.error(err);
       } finally {

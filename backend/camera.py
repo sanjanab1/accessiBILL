@@ -1,9 +1,6 @@
 import cv2
 import pytesseract
 
-# If needed (Mac usually auto-detects, but include if error)
-# pytesseract.pytesseract.tesseract_cmd = "/opt/homebrew/bin/tesseract"
-
 def process_image(image):
     # Improve OCR accuracy
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)

@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const Home = () => {
   const navigate = useNavigate();
 
-  const handleSubmit = (response: string) => {
+  const handleSubmit = async (response: string) => {
     const result = JSON.parse(response); // Parse the string back to an object
     navigate("/results", { state: { data: result } });
   };

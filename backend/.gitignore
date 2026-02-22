@@ -1,5 +1,4 @@
 .env
-.DS_store
+.DS_Store
+__pycache__
 venv/
-formatted_tax_rates.csv
-processed_crimes.csv

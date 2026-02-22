@@ -28,6 +28,14 @@ const SummaryOutput = ({ data }: SummaryOutputProps) => {
       transition={{ duration: 0.5, ease: "easeOut" }}
       className="w-full max-w-2xl mx-auto mt-10 space-y-6"
     >
+      {data.summary && (
+        <div className="p-4 bg-muted rounded-lg">
+          <h2 className="font-semibold mb-2 flex items-center gap-2">
+            <Lightbulb size={18} /> Bill Analysis
+          </h2>
+          <p className="text-sm leading-relaxed">{String(data.summary)}</p>
+        </div>
+      )}
     </motion.div>
   );
 };

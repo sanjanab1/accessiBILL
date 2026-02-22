@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { FileText, Upload, Camera, Mic, MicOff, ArrowRight, X, Image } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { analyzePolicy } from "@/lib/api";
+import { extractText, analyzePolicy } from "@/lib/api";
 
 type InputMode = "text" | "upload" | "scan" | "audio";
 
@@ -20,6 +20,8 @@ const InputArea = ({ onSubmit }: InputAreaProps) => {
   const [isRecording, setIsRecording] = useState(false);
   const [audioText, setAudioText] = useState("");
   const [scanPreview, setScanPreview] = useState<string | null>(null);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [scannedFile, setScannedFile] = useState<File | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
   const scanRef = useRef<HTMLInputElement>(null);
 
@@ -33,6 +35,7 @@ const InputArea = ({ onSubmit }: InputAreaProps) => {
   const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      setUploadedFile(file);
       setFileName(file.name);
       if (file.type.startsWith("image/")) {
         const url = URL.createObjectURL(file);
@@ -53,6 +56,7 @@ const InputArea = ({ onSubmit }: InputAreaProps) => {
   const handleScan = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
+      setScannedFile(file);  // ← store it
       const url = URL.createObjectURL(file);
       setScanPreview(url);
       setText(`[Scanned: ${file.name}]`);
@@ -60,6 +64,7 @@ const InputArea = ({ onSubmit }: InputAreaProps) => {
   };
 
   const clearFile = () => {
+    setUploadedFile(null);
     setFileName(null);
     setFilePreview(null);
     setText("");
@@ -68,6 +73,7 @@ const InputArea = ({ onSubmit }: InputAreaProps) => {
   };
 
   const clearScan = () => {
+    setScannedFile(null);
     setScanPreview(null);
     setText("");
     if (scanRef.current) scanRef.current.value = "";
@@ -95,11 +101,29 @@ const InputArea = ({ onSubmit }: InputAreaProps) => {
 
   const handleSubmit = async () => {
     try {
-      const response = await analyzePolicy(); // Wrap text in an object
-      onSubmit(JSON.stringify(response)); // Ensure onSubmit gets a string
+      let file: File | null = null;
+
+      if (mode === "upload") file = uploadedFile;
+      else if (mode === "scan") file = scannedFile;
+
+      if (!file) {
+        alert("Please upload or scan an image first.");
+        return;
+      }
+
+      const ocrResult = await extractText(file);
+      const summary = ocrResult.summary;
+      const personalizeResult = await analyzePolicy(summary);
+
+      onSubmit(JSON.stringify({
+        summary,
+        ...personalizeResult,
+        bill_summary: summary,
+        state: "Texas",
+      }));
     } catch (error) {
-      console.error("Error submitting data:", error);
-      alert("Failed to analyze policy. Please try again.");
+      console.error("Error:", error);
+      alert("Failed to analyze. Please try again.");
     }
   };
 
