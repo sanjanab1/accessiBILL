@@ -20,8 +20,8 @@ const Home = () => {
           transition={{ duration: 0.5 }}
           className="text-center mb-10"
         >
-          <h1 className="text-5xl md:text-6xl tracking-tight mb-3">AccessiBILL</h1>
-          <p className="text-muted-foreground text-lg">
+          <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-3">AccessiBILL</h1>
+          <p className="white-text text-lg">
             Upload any bill, proposal, or initiative, and get your questions answered in seconds.
           </p>
         </motion.div>

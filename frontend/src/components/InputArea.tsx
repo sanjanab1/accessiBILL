@@ -11,6 +11,33 @@ interface InputAreaProps {
   onSubmit: (content: string) => void;
 }
 
+const modeGlow: Record<InputMode, { shadow: string; border: string; activeBg: string; activeText: string }> = {
+  text:   {
+    shadow:    "0 0 12px 2px hsl(262 60% 58% / 0.55), 0 0 32px 4px hsl(262 60% 58% / 0.25)",
+    border:    "hsl(262 60% 58%)",
+    activeBg:  "hsl(262 60% 58% / 0.15)",
+    activeText:"hsl(262 60% 72%)",
+  },
+  upload: {
+    shadow:    "0 0 12px 2px hsl(172 52% 46% / 0.55), 0 0 32px 4px hsl(172 52% 46% / 0.25)",
+    border:    "hsl(172 52% 46%)",
+    activeBg:  "hsl(172 52% 46% / 0.15)",
+    activeText:"hsl(172 52% 60%)",
+  },
+  scan:   {
+    shadow:    "0 0 12px 2px hsl(38 92% 56% / 0.55), 0 0 32px 4px hsl(38 92% 56% / 0.25)",
+    border:    "hsl(38 92% 56%)",
+    activeBg:  "hsl(38 92% 56% / 0.15)",
+    activeText:"hsl(38 92% 65%)",
+  },
+  audio:  {
+    shadow:    "0 0 12px 2px hsl(4 78% 63% / 0.55), 0 0 32px 4px hsl(4 78% 63% / 0.25)",
+    border:    "hsl(4 78% 63%)",
+    activeBg:  "hsl(4 78% 63% / 0.15)",
+    activeText:"hsl(4 78% 72%)",
+  },
+};
+
 const InputArea = ({ onSubmit }: InputAreaProps) => {
   const [mode, setMode] = useState<InputMode>("text");
   const [text, setText] = useState("");
@@ -21,13 +48,15 @@ const InputArea = ({ onSubmit }: InputAreaProps) => {
   const [audioText, setAudioText] = useState("");
   const [scanPreview, setScanPreview] = useState<string | null>(null);
   const fileRef = useRef<HTMLInputElement>(null);
-  const scanRef = useRef<HTMLInputElement>(null);
+  const scanImageRef = useRef<HTMLInputElement>(null);
+
+  const glow = modeGlow[mode];
 
   const modes: { id: InputMode; label: string; icon: React.ReactNode }[] = [
-    { id: "text", label: "Text", icon: <FileText size={18} /> },
+    { id: "text",   label: "Text",   icon: <FileText size={18} /> },
     { id: "upload", label: "Upload", icon: <Upload size={18} /> },
-    { id: "scan", label: "Scan", icon: <Camera size={18} /> },
-    { id: "audio", label: "Voice", icon: <Mic size={18} /> },
+    { id: "scan",   label: "Scan",   icon: <Camera size={18} /> },
+    { id: "audio",  label: "Voice",  icon: <Mic size={18} /> },
   ];
 
   const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,9 +67,14 @@ const InputArea = ({ onSubmit }: InputAreaProps) => {
         const url = URL.createObjectURL(file);
         setFilePreview(url);
         setText(`[Uploaded image: ${file.name}]`);
-      } else if (file.type.startsWith("text/") || file.name.endsWith(".txt") || file.name.endsWith(".md") || file.name.endsWith(".csv")) {
+      } else if (
+        file.type.startsWith("text/") ||
+        file.name.endsWith(".txt") ||
+        file.name.endsWith(".md") ||
+        file.name.endsWith(".csv")
+      ) {
         const reader = new FileReader();
-        reader.onload = (ev) => setText(ev.target?.result as string || `[Uploaded: ${file.name}]`);
+        reader.onload = (ev) => setText((ev.target?.result as string) || `[Uploaded: ${file.name}]`);
         reader.readAsText(file);
         setFilePreview(null);
       } else {
@@ -50,11 +84,12 @@ const InputArea = ({ onSubmit }: InputAreaProps) => {
     }
   };
 
-  const handleScan = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleScanImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const url = URL.createObjectURL(file);
       setScanPreview(url);
+      setScanTextContent(null);
       setText(`[Scanned: ${file.name}]`);
     }
   };
@@ -70,34 +105,28 @@ const InputArea = ({ onSubmit }: InputAreaProps) => {
   const clearScan = () => {
     setScanPreview(null);
     setText("");
-    if (scanRef.current) scanRef.current.value = "";
+    if (scanImageRef.current) scanImageRef.current.value = "";
   };
 
   const toggleRecording = () => {
     if (isRecording) {
       setIsRecording(false);
-      setAudioText("Transcribed audio content would appear here. For now, this is a simulated transcription of your voice input.");
-      setText("Transcribed audio content would appear here. For now, this is a simulated transcription of your voice input.");
+      const simulated =
+        "Transcribed audio content would appear here. For now, this is a simulated transcription of your voice input.";
+      setAudioText(simulated);
+      setText(simulated);
     } else {
       setIsRecording(true);
       setAudioText("");
     }
   };
 
-  const getSubmitContent = () => {
-    if (mode === "upload" && contextText.trim()) {
-      return `${text}\n\nContext: ${contextText}`;
-    }
-    return text;
-  };
-
   const canSubmit = text.trim().length > 0;
 
   const handleSubmit = async () => {
     try {
-      //console.log("Submitting text:", text); // Log the text being submitted
-      const response = await analyzePolicy({ text }); // Wrap text in an object
-      //console.log("Backend response:", response); // Log the backend response
+      const requestData = text; // Send raw input directly
+      const response = await analyzePolicy({ input_data: requestData }); // Wrap raw input in an object
       onSubmit(JSON.stringify(response)); // Ensure onSubmit gets a string
     } catch (error) {
       console.error("Error submitting data:", error);
@@ -114,41 +143,88 @@ const InputArea = ({ onSubmit }: InputAreaProps) => {
     >
       {/* Mode Tabs */}
       <div className="flex gap-1 mb-3 bg-secondary rounded-lg p-1 w-fit mx-auto">
-        {modes.map((m) => (
-          <button
-            key={m.id}
-            onClick={() => setMode(m.id)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all ${
-              mode === m.id
-                ? "bg-background text-foreground shadow-sm"
-                : "text-muted-foreground hover:text-foreground"
-            }`}
-          >
-            {m.icon}
-            {m.label}
-          </button>
-        ))}
+        {modes.map((m) => {
+          const isActive = mode === m.id;
+          const mg = modeGlow[m.id];
+          return (
+            <button
+              key={m.id}
+              onClick={() => setMode(m.id)}
+              style={
+                isActive
+                  ? {
+                      backgroundColor: mg.activeBg,
+                      color: mg.activeText,
+                      boxShadow: mg.shadow,
+                      border: `1px solid ${mg.border}`,
+                    }
+                  : {}
+              }
+              className={`flex items-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 ${
+                isActive
+                  ? "shadow-sm"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+              onMouseEnter={(e) => {
+                if (!isActive) {
+                  (e.currentTarget as HTMLButtonElement).style.boxShadow = mg.shadow;
+                  (e.currentTarget as HTMLButtonElement).style.color = mg.activeText;
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (!isActive) {
+                  (e.currentTarget as HTMLButtonElement).style.boxShadow = "";
+                  (e.currentTarget as HTMLButtonElement).style.color = "";
+                }
+              }}
+            >
+              {m.icon}
+              {m.label}
+            </button>
+          );
+        })}
       </div>
 
       {/* Input Area */}
-      <div className="bg-card border border-border rounded-xl p-4 shadow-sm">
+      <div
+        className="bg-card rounded-xl p-4 shadow-sm transition-all duration-300"
+        style={{
+          border: `1px solid ${glow.border}`,
+          boxShadow: glow.shadow,
+        }}
+      >
+        {/* TEXT MODE */}
         {mode === "text" && (
           <Textarea
-            placeholder="Paste or type your content here…"
+            placeholder="Paste or type your content and question here…"
             value={text}
             onChange={(e) => setText(e.target.value)}
             className="min-h-[140px] resize-none border-0 bg-transparent focus-visible:ring-0 text-base leading-relaxed placeholder:text-muted-foreground/60"
           />
         )}
 
+        {/* UPLOAD MODE */}
         {mode === "upload" && (
           <div className="space-y-3">
             {!fileName ? (
               <div
-                className="min-h-[100px] flex flex-col items-center justify-center gap-3 cursor-pointer rounded-lg border-2 border-dashed border-border hover:border-foreground/30 transition-colors"
+                className="min-h-[100px] flex flex-col items-center justify-center gap-3 cursor-pointer rounded-lg border-2 border-dashed transition-colors"
+                style={{ borderColor: `${glow.border}55` }}
+                onMouseEnter={(e) =>
+                  ((e.currentTarget as HTMLDivElement).style.borderColor = glow.border)
+                }
+                onMouseLeave={(e) =>
+                  ((e.currentTarget as HTMLDivElement).style.borderColor = `${glow.border}55`)
+                }
                 onClick={() => fileRef.current?.click()}
               >
-                <input ref={fileRef} type="file" className="hidden" onChange={handleFile} accept=".txt,.md,.csv,.pdf,.doc,.docx,.png,.jpg,.jpeg,.webp,.gif" />
+                <input
+                  ref={fileRef}
+                  type="file"
+                  className="hidden"
+                  onChange={handleFile}
+                  accept=".txt,.md,.csv,.pdf,.doc,.docx,.png,.jpg,.jpeg,.webp,.gif"
+                />
                 <div className="flex gap-2 text-muted-foreground">
                   <Upload size={24} />
                   <Image size={24} />
@@ -157,17 +233,24 @@ const InputArea = ({ onSubmit }: InputAreaProps) => {
               </div>
             ) : (
               <div className="relative rounded-lg border border-border p-3">
-                <button onClick={clearFile} className="absolute top-2 right-2 text-muted-foreground hover:text-foreground">
+                <button
+                  onClick={clearFile}
+                  className="absolute top-2 right-2 text-muted-foreground hover:text-foreground"
+                >
                   <X size={16} />
                 </button>
-                {filePreview ? (
-                  <img src={filePreview} alt="Preview" className="max-h-32 rounded-md mx-auto mb-2 object-contain" />
-                ) : null}
+                {filePreview && (
+                  <img
+                    src={filePreview}
+                    alt="Preview"
+                    className="max-h-32 rounded-md mx-auto mb-2 object-contain"
+                  />
+                )}
                 <p className="text-sm text-foreground font-medium truncate pr-6">{fileName}</p>
               </div>
             )}
             <Textarea
-              placeholder="Add context or questions about this file… (optional)"
+              placeholder="Add context or questions about this file…"
               value={contextText}
               onChange={(e) => setContextText(e.target.value)}
               className="min-h-[60px] resize-none border border-border rounded-lg bg-transparent focus-visible:ring-1 focus-visible:ring-ring text-sm leading-relaxed placeholder:text-muted-foreground/60"
@@ -175,46 +258,95 @@ const InputArea = ({ onSubmit }: InputAreaProps) => {
           </div>
         )}
 
+        {/* SCAN MODE */}
         {mode === "scan" && (
-          <div className="min-h-[140px] flex flex-col items-center justify-center gap-4">
-            {!scanPreview ? (
-              <>
-                <input ref={scanRef} type="file" accept="image/*" capture="environment" className="hidden" onChange={handleScan} />
-                <button
-                  onClick={() => scanRef.current?.click()}
-                  className="w-20 h-20 rounded-full bg-secondary text-foreground hover:bg-secondary/80 flex items-center justify-center transition-all"
-                >
-                  <Camera size={32} />
-                </button>
-                <p className="text-sm text-muted-foreground">Tap to scan a document or photo</p>
-              </>
-            ) : (
-              <div className="relative w-full">
-                <button onClick={clearScan} className="absolute top-2 right-2 z-10 bg-background/80 rounded-full p-1 text-muted-foreground hover:text-foreground">
-                  <X size={16} />
-                </button>
-                <img src={scanPreview} alt="Scanned" className="max-h-48 rounded-lg mx-auto object-contain" />
-              </div>
-            )}
+          <div className="flex flex-col gap-3">
+            {/* Camera button / preview */}
+            <div className="flex flex-col items-center gap-3">
+              <input
+                ref={scanImageRef}
+                type="file"
+                accept="image/*"
+                capture="environment"
+                className="hidden"
+                onChange={handleScanImage}
+              />
+              {scanPreview ? (
+                <div className="relative w-full">
+                  <button
+                    onClick={clearScan}
+                    className="absolute top-2 right-2 z-10 bg-background/80 rounded-full p-1 text-muted-foreground hover:text-foreground"
+                  >
+                    <X size={16} />
+                  </button>
+                  <img
+                    src={scanPreview}
+                    alt="Scanned"
+                    className="max-h-48 rounded-lg mx-auto object-contain"
+                  />
+                </div>
+              ) : (
+                <>
+                  <button
+                    onClick={() => scanImageRef.current?.click()}
+                    className="w-20 h-20 rounded-full flex items-center justify-center transition-all duration-200"
+                    style={{ backgroundColor: glow.activeBg, color: glow.activeText }}
+                    onMouseEnter={(e) =>
+                      ((e.currentTarget as HTMLButtonElement).style.boxShadow = glow.shadow)
+                    }
+                    onMouseLeave={(e) =>
+                      ((e.currentTarget as HTMLButtonElement).style.boxShadow = "")
+                    }
+                  >
+                    <Camera size={32} />
+                  </button>
+                  <p className="text-sm text-muted-foreground">Tap to open camera or upload a photo</p>
+                </>
+              )}
+            </div>
+
+            {/* Context text box */}
+            <Textarea
+              placeholder="Add context or questions about this scan…"
+              value={contextText}
+              onChange={(e) => setContextText(e.target.value)}
+              className="min-h-[60px] resize-none border border-border rounded-lg bg-transparent focus-visible:ring-1 focus-visible:ring-ring text-sm leading-relaxed placeholder:text-muted-foreground/60"
+            />
           </div>
         )}
 
+        {/* AUDIO MODE */}
         {mode === "audio" && (
           <div className="min-h-[140px] flex flex-col items-center justify-center gap-4">
             <button
               onClick={toggleRecording}
-              className={`w-16 h-16 rounded-full flex items-center justify-center transition-all ${
+              className="w-16 h-16 rounded-full flex items-center justify-center transition-all duration-200"
+              style={
                 isRecording
-                  ? "bg-coral text-white animate-pulse"
-                  : "bg-secondary text-foreground hover:bg-secondary/80"
-              }`}
+                  ? {
+                      backgroundColor: modeGlow.audio.activeBg,
+                      color: modeGlow.audio.activeText,
+                      boxShadow: modeGlow.audio.shadow,
+                      animation: "pulse 1.5s infinite",
+                    }
+                  : { backgroundColor: glow.activeBg, color: glow.activeText }
+              }
+              onMouseEnter={(e) =>
+                ((e.currentTarget as HTMLButtonElement).style.boxShadow = glow.shadow)
+              }
+              onMouseLeave={(e) => {
+                if (!isRecording)
+                  (e.currentTarget as HTMLButtonElement).style.boxShadow = "";
+              }}
             >
               {isRecording ? <MicOff size={24} /> : <Mic size={24} />}
             </button>
             <p className="text-sm text-muted-foreground">
               {isRecording ? "Recording… tap to stop" : audioText || "Tap to start recording"}
             </p>
-            {audioText && <p className="text-sm text-foreground italic px-4 text-center">{audioText}</p>}
+            {audioText && (
+              <p className="text-sm text-foreground italic px-4 text-center">{audioText}</p>
+            )}
           </div>
         )}
 
@@ -222,8 +354,24 @@ const InputArea = ({ onSubmit }: InputAreaProps) => {
         <div className="flex justify-end mt-3 pt-3 border-t border-border">
           <Button
             onClick={handleSubmit}
-            className="w-full"
-            disabled={!text.trim()}
+            className="w-full transition-all duration-200"
+            disabled={!canSubmit}
+            style={
+              canSubmit
+                ? {
+                    backgroundColor: glow.activeBg,
+                    color: glow.activeText,
+                    border: `1px solid ${glow.border}`,
+                  }
+                : {}
+            }
+            onMouseEnter={(e) => {
+              if (canSubmit)
+                (e.currentTarget as HTMLButtonElement).style.boxShadow = glow.shadow;
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLButtonElement).style.boxShadow = "";
+            }}
           >
             Submit <ArrowRight size={18} className="ml-2" />
           </Button>
