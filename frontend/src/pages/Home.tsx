@@ -6,8 +6,8 @@ const Home = () => {
   const navigate = useNavigate();
 
   const handleSubmit = (response: string) => {
-    const parsedResponse = JSON.parse(response); // Parse the string back to an object
-    navigate("/results", { state: { data: parsedResponse } });
+    //const parsedResponse = JSON.parse(response); // Parse the string back to an object
+    navigate("/results", { state: { data: response } });
   };
 
   return (
