@@ -23,3 +23,5 @@ typing_extensions
 anyio
 click
 h11
+pymupdf
+python-docx
